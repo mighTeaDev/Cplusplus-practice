@@ -15,7 +15,7 @@
 #include <iomanip>
 
 class Employee {
-    protected:
+    private:
     std::string name;
 
     public:
@@ -84,7 +84,7 @@ class ChiefOfficer : public Employee{
 };
 
 class bankBalance {
-    protected:
+    private:
     long double balance = 1000000;
     public:
     double getBalance(){
@@ -198,7 +198,7 @@ int main(){
             }
 
         long double functionalGrandTotal = grandtotal;    
-        double functionalBalance = balance.getBalance();
+        long double functionalBalance = balance.getBalance();
         long double functionalIncome = rand() % 200000 + 50000;
         long double newBalance = functionalBalance - functionalGrandTotal + functionalIncome;
         balance.setBalance(newBalance);
