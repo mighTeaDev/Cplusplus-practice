@@ -147,7 +147,6 @@ int main(){
     if(continueInput == 'y'){
         srand(time(NULL));
     }
-    std::cout << "-----------------------------------\n";
 
     //Creating an array of days in the month
     int days[31] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
@@ -179,7 +178,7 @@ int main(){
     chiefofficer1.setName(userName);
 
     //Begin program loop
-    while(continueInput != 'n' && balance.getBalance() >= 0){
+    while(continueInput == 'y' && balance.getBalance() >= 0){
     
         //iterate over each day in the month
         for(int i = 0; i < sizeof(days)/sizeof(days[1]); ++i){
@@ -213,6 +212,7 @@ int main(){
         balance.setBalance(newBalance);
 
         //print monthly costs, then prompt user to quit or sim again
+        std::cout << "-----------------------------------\n";
         std::cout << "$" << total1 << " earned by " << softwareDev1.getName() << " this month.\n";
         std::cout << "$" << total2 << " earned by " << softwareDev2.getName() << " this month.\n";
         std::cout << "$" << total3 << " earned by " << engineer1.getName() << " this month.\n";
@@ -257,6 +257,11 @@ int main(){
     if(checkBalanceForMoreThanZero <= 0){
         std::cout << "-----------------------------------\n";
         std::cout << "WARNING: You have bankrupted the company and been kicked off the system\n";
+        std::cout << "-----------------------------------\n";
+    }
+    if(continueInput == 'n'){
+        std::cout << "-----------------------------------\n";
+        std::cout << "----------program closed.----------\n";
         std::cout << "-----------------------------------\n";
     }
 return 0;    
