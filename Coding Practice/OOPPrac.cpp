@@ -62,15 +62,15 @@ int main(){
     std::cout << "---------------------------------\n";
     std::cout << "Players Connected: \n";
 
-     firstHumanAlive.printFullName();
+    firstHumanAlive.printFullName();
     secondHumanAlive.printFullName();
 
     //print Matty Park to test getName()
     std::cout << thirdHumanAlive.getName() << "\n";
 
     Zombie firstZombieAlive;
-    firstZombieAlive.setFirstName("Trever");
-    firstZombieAlive.setLastName("Fernador");
+    firstZombieAlive.setFirstName("Leonidas");
+    firstZombieAlive.setLastName("Dingleton");
     firstZombieAlive.setZombieType("Traitor");
 
     std::cout << firstZombieAlive.getName() << "\n";
