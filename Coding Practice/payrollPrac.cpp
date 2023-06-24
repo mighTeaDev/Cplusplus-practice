@@ -100,34 +100,24 @@ int main(){
     char continueInput;
     double payment1 = 0;
     double total1 = 0;
-    double temp1 = 0;
     double payment2 = 0;
     double total2 = 0;
-    double temp2 = 0;
     double payment3 = 0;
     double total3 = 0;
-    double temp3 = 0;
     double payment4 = 0;
     double total4 = 0;
-    double temp4 = 0;
     double payment5 = 0;
     double total5 = 0;
-    double temp5 = 0;
     double payment6 = 0;
     double total6 = 0;
-    double temp6 = 0;
     double payment7 = 0;
     double total7 = 0;
-    double temp7 = 0;
     double payment8 = 0;
     double total8 = 0;
-    double temp8 = 0;
     double payment9 = 0;
     double total9 = 0;
-    double temp9 = 0;
     double payment10 = 0;
     double total10 = 0;
-    double temp10 = 0;
     long double grandtotal = 0;
     bankBalance balance;
     std::string userName;
@@ -150,7 +140,7 @@ int main(){
         std::cin >> continueInput;
     }
 
-    //Creating an array of days in the month
+    //Creating an array of days in the month (31 days const for now, find mock calendar integration later)
     int days[31] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
 
     //Naming Employees and assigning classes
