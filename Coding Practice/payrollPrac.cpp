@@ -144,8 +144,10 @@ int main(){
     std::cout << "-----------------------------------\n";
     std::cout << "Would you like to sim a month in the system? (y/n)\n";
     std::cin >> continueInput;
-    if(continueInput == 'y'){
-        srand(time(NULL));
+    if(continueInput != 'y' && continueInput != 'n'){
+        std::cout<< "----> Error, please enter 'y' or 'n' <----\n";
+        std::cout << "Would you like to sim a month in the system? (y/n)\n";
+        std::cin >> continueInput;
     }
 
     //Creating an array of days in the month
