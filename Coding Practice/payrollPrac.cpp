@@ -82,6 +82,10 @@ class bankBalance {
     }
 };
 
+
+
+
+
 int main(){
     srand(time(NULL));
     std::string continueInput;
@@ -270,6 +274,7 @@ int main(){
 
     ChiefOfficer chiefofficer1(userName);
 
+    
     //Begin program loop
     while(continueInput == "y" && balance.getBalance() >= 0){
 
@@ -300,7 +305,7 @@ int main(){
 
         long double functionalGrandTotal = grandtotal;    
         long double functionalBalance = balance.getBalance();
-        long double functionalIncome = rand() % 1000 + 0;
+        long double functionalIncome = rand() % 200000 + 50000;
         long double newBalance = functionalBalance - functionalGrandTotal + functionalIncome;
         balance.setBalance(newBalance);
         currentMonth++;
