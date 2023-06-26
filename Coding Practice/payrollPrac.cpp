@@ -25,9 +25,13 @@
 #include <vector>
 
 class Employee {
-    private:
+    protected:
     std::string name;
-
+    double wage;
+    Employee(std::string name, double wage){
+        this->name = name;
+        this->wage = wage;
+    }
     public:
     void setName(std::string name){
         this->name = name;
@@ -35,62 +39,35 @@ class Employee {
     std::string getName(){
         return name;
     }
+    double getPaid(){
+        double hoursWorked = rand() % 8 + 1;
+        return wage * hoursWorked;
+    }
 };
 
 class SoftwareDev : public Employee {
-    private:
-    double hoursWorked = (rand() % 8 + 1);
-    double wage = 65.52;
-
     public:
-    double getPaid(){
-        return wage * (rand() % 8 + 1);
-    }
-
+    SoftwareDev(std::string name): Employee(name, 65.22){}
 };
 
 class Engineer : public Employee{
-    private:
-    double hoursWorked = (rand() % 8 + 1);
-    double wage = 45.22;
-
     public:
-    double getPaid(){
-        return wage * (rand() % 8 + 1);
-    }
+    Engineer(std::string name): Employee(name, 45.22){}
 };
 
 class Accountant : public Employee {
-    private:
-    double hoursWorked = (rand() % 8 + 1);
-    double wage = 34.62;
-
     public:
-    double getPaid(){
-        return wage * (rand() % 8 + 1);
-    }
+    Accountant(std::string name): Employee(name, 35.22){}
 };
 
 class AdminAsst : public Employee{
-    private:
-    double hoursWorked = (rand() % 8 + 1);
-    double wage = 22.30;
-
     public:
-    double getPaid(){
-        return wage * (rand() % 8 + 1);
-    }
+    AdminAsst(std::string name): Employee(name, 25.22){}
 };
 
 class ChiefOfficer : public Employee{
-    private:
-    double hoursWorked = (rand() % 8 + 1);
-    double wage = 250.00;
-
     public:
-    double getPaid(){
-        return wage * (rand() % 8 + 1);
-    }
+    ChiefOfficer(std::string name): Employee(name, 135.22){}
 };
 
 class bankBalance {
@@ -104,7 +81,6 @@ class bankBalance {
         this->balance = newBalance;
     }
 };
-
 
 int main(){
     srand(time(NULL));
@@ -261,7 +237,7 @@ int main(){
     //Opening prompt
     std::cout << "-----------Kairo Payroll-----------\n";
     std::cout << "Please enter your name: \n";
-    std::cin >> userName;
+    std::getline(std::cin, userName);
     std::cout << "-----------------------------------\n";
     std::cout << "Welcome, " << userName << '\n';
     std::cout << "You have signed in as a super user.\n";
@@ -279,30 +255,20 @@ int main(){
     }
 
     //Naming Employees and assigning classes
-    SoftwareDev softwareDev1;
-    softwareDev1.setName("Dave Crazy");
-    SoftwareDev softwareDev2;
-    softwareDev2.setName("Steve Minecraft");
+    SoftwareDev softwareDev1("Dave Crazy");
+    SoftwareDev softwareDev2("Steve Minecraft");
 
-    Engineer engineer1;
-    engineer1.setName("Craig Boolin");
-    Engineer engineer2;
-    engineer2.setName("Adam Ineve");
-    Engineer engineer3;
-    engineer3.setName("Timmy Idol");
+    Engineer engineer1("Craig Boolin");
+    Engineer engineer2("Adam Ineve");
+    Engineer engineer3("Timmy Idol");
 
-    Accountant accountant1;
-    accountant1.setName("Sandra Bollocks");
-    Accountant accountant2;
-    accountant2.setName("Michael Angelo");
+    Accountant accountant1("Sandra Bollocks");
+    Accountant accountant2("Michael Angelo");
 
-    AdminAsst adminasst1;
-    adminasst1.setName("Charlie Hoares");
-    AdminAsst adminasst2;
-    adminasst2.setName("Bonk Dogger");
+    AdminAsst adminasst1("Charlie Hoares");
+    AdminAsst adminasst2("Bonk Dogger");
 
-    ChiefOfficer chiefofficer1;
-    chiefofficer1.setName(userName);
+    ChiefOfficer chiefofficer1(userName);
 
     //Begin program loop
     while(continueInput == "y" && balance.getBalance() >= 0){
@@ -334,7 +300,7 @@ int main(){
 
         long double functionalGrandTotal = grandtotal;    
         long double functionalBalance = balance.getBalance();
-        long double functionalIncome = rand() % 200000 + 50000;
+        long double functionalIncome = rand() % 1000 + 0;
         long double newBalance = functionalBalance - functionalGrandTotal + functionalIncome;
         balance.setBalance(newBalance);
         currentMonth++;
@@ -477,8 +443,6 @@ int main(){
         else{
         monthName = "December";
         }
-
-       
 
         //print monthly costs, then prompt user to quit or sim again
         std::cout << "-----------------------------------\n";
