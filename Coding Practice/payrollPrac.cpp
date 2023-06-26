@@ -333,23 +333,65 @@ int main(){
         long double functionalIncome = rand() % 200000 + 50000;
         long double newBalance = functionalBalance - functionalGrandTotal + functionalIncome;
         balance.setBalance(newBalance);
-        currentMonth+=1;
+        currentMonth++;
+        if(currentMonth > 12){
+            currentMonth = 1;
+            currentYear++;
+        }
+        if(currentMonth == 1){
+        monthName = "January";
+        }
+        else if(currentMonth == 2){
+        monthName = "February";
+        }
+        else if(currentMonth == 3){
+        monthName = "March";
+        }
+        else if(currentMonth == 4){
+        monthName = "April";
+        }
+        else if(currentMonth == 5){
+        monthName = "May";
+        }    
+        else if(currentMonth == 6){
+        monthName = "June";
+        }    
+        else if(currentMonth == 7){
+        monthName = "July";
+        }    
+        else if(currentMonth == 8){
+        monthName = "August";
+        }    
+        else if(currentMonth == 9){
+        monthName = "September";
+        }    
+        else if(currentMonth == 10){        
+        monthName = "October";
+        }    
+        else if(currentMonth == 11){
+        monthName = "November";
+        }    
+        else{
+        monthName = "December";
+        }
+        
 
         //print monthly costs, then prompt user to quit or sim again
         std::cout << "-----------------------------------\n";
-        std::cout << "$" << total1 << " earned by " << softwareDev1.getName() << " this month.\n";
-        std::cout << "$" << total2 << " earned by " << softwareDev2.getName() << " this month.\n";
-        std::cout << "$" << total3 << " earned by " << engineer1.getName() << " this month.\n";
-        std::cout << "$" << total4 << " earned by " << engineer2.getName() << " this month.\n";
-        std::cout << "$" << total5 << " earned by " << engineer3.getName() << " this month.\n";
-        std::cout << "$" << total6 << " earned by " << accountant1.getName() << " this month.\n";
-        std::cout << "$" << total7 << " earned by " << accountant2.getName() << " this month.\n";
-        std::cout << "$" << total8 << " earned by " << adminasst1.getName() << " this month.\n";
-        std::cout << "$" << total9 << " earned by " << adminasst2.getName() << " this month.\n";
-        std::cout << "$" << total10 << " earned by " << chiefofficer1.getName() << " this month.\n";
+        std::cout << "$" << total1 << " earned by " << softwareDev1.getName() << " last month.\n";
+        std::cout << "$" << total2 << " earned by " << softwareDev2.getName() << " last month.\n";
+        std::cout << "$" << total3 << " earned by " << engineer1.getName() << " last month.\n";
+        std::cout << "$" << total4 << " earned by " << engineer2.getName() << " last month.\n";
+        std::cout << "$" << total5 << " earned by " << engineer3.getName() << " last month.\n";
+        std::cout << "$" << total6 << " earned by " << accountant1.getName() << " last month.\n";
+        std::cout << "$" << total7 << " earned by " << accountant2.getName() << " last month.\n";
+        std::cout << "$" << total8 << " earned by " << adminasst1.getName() << " last month.\n";
+        std::cout << "$" << total9 << " earned by " << adminasst2.getName() << " last month.\n";
+        std::cout << "$" << total10 << " earned by " << chiefofficer1.getName() << " last month.\n";
         std::cout << "-----------------------------------\n";
-        std::cout << "This month we made: $" << functionalIncome << '\n';
-        std::cout << "This month labor costed: $" << std::fixed << std::setprecision(2) << grandtotal << '\n';
+        std::cout << "It is now " << currentMonth << "-" << currentDay<< "-" << currentYear << " (" << monthName << ")" << '\n';
+        std::cout << "Last month we made: $" << functionalIncome << '\n';
+        std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandtotal << '\n';
         std::cout << "For a difference of : $" << functionalIncome - grandtotal << '\n';
         std::cout << "Our new balance is: $" << balance.getBalance() << '\n';
         if((functionalIncome - grandtotal) > 0){
@@ -359,8 +401,7 @@ int main(){
             std::cout << "It was a bad month, we LOST MONEY\n";
         }
         std::cout << "-----------------------------------\n";
-        std::cout << "It is now " << monthName << '\n';
-        
+
         //reset the grandtotal counter
         grandtotal = 0;
         total1 = 0;
