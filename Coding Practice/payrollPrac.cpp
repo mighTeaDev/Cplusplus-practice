@@ -493,11 +493,13 @@ int main(){
         std::cout << "-----------------------------------\n";
         std::cout << "WARNING: You have bankrupted the company and been kicked off the system\n";
         std::cout << "-----------------------------------\n";
+        
     }
     if(continueInput == "n"){
         std::cout << "-----------------------------------\n";
         std::cout << "----------program closed.----------\n";
         std::cout << "-----------------------------------\n";
     }
+system("pause");
 return 0;    
 }
