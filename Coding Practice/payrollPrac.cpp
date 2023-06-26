@@ -152,33 +152,38 @@ int main(){
     int currentYear = timeinfo->tm_year + 1900;
     int currentMonth = timeinfo->tm_mon + 1;
     int currentDay = timeinfo->tm_mday;
-
     int daysInMonth;
-    if(currentMonth == 1){
+    
+    if(currentMonth > 12){
+            currentMonth = 1;
+            currentYear++;
+        }
+
+        if(currentMonth == 1){
         std::vector<int> days;
         for(int i = 0; i < 31; ++i){
             days.push_back(i);
             }
         monthName = "January";
         daysInMonth = days.size();
-    }
-    else if(currentMonth == 2){
+        }
+        else if(currentMonth == 2){
         std::vector<int> days;
             for(int i = 0; i < 28; ++i){
                 days.push_back(i);
             }
         monthName = "February";
         daysInMonth = days.size();
-    }
-    else if(currentMonth == 3){
+        }
+        else if(currentMonth == 3){
         std::vector<int> days;
             for(int i = 0; i < 31; ++i){
                 days.push_back(i);
             }
         monthName = "March";
         daysInMonth = days.size();
-    }
-    else if(currentMonth == 4){
+        }
+        else if(currentMonth == 4){
         
             std::vector<int> days;
             for(int i = 0; i < 30; ++i){
@@ -186,72 +191,71 @@ int main(){
             }
         monthName = "April";
         daysInMonth = days.size();
-    }
-    else if(currentMonth == 5){
+        }
+        else if(currentMonth == 5){
             std::vector<int> days;
             for(int i = 0; i < 31; ++i){
                 days.push_back(i);
             }
         monthName = "May";
         daysInMonth = days.size();
-    }    
-    else if(currentMonth == 6){
+        }    
+        else if(currentMonth == 6){
             std::vector<int> days;
             for(int i = 0; i < 30; ++i){
                 days.push_back(i);
             }
         monthName = "June";
         daysInMonth = days.size();
-    }    
-    else if(currentMonth == 7){
+        }    
+        else if(currentMonth == 7){
             std::vector<int> days;
             for(int i = 0; i < 31; ++i){
                 days.push_back(i);
             }
         monthName = "July";
         daysInMonth = days.size();
-    }    
-    else if(currentMonth == 8){
+        }    
+        else if(currentMonth == 8){
             std::vector<int> days;
             for(int i = 0; i < 31; ++i){
                 days.push_back(i);
             }
         monthName = "August";
         daysInMonth = days.size();
-    }    
-    else if(currentMonth == 9){
+        }    
+        else if(currentMonth == 9){
             std::vector<int> days;
             for(int i = 0; i < 30; ++i){
                 days.push_back(i);
             }
         monthName = "September";
         daysInMonth = days.size();
-    }    
-    else if(currentMonth == 10){        
+        }    
+        else if(currentMonth == 10){        
             std::vector<int> days;
             for(int i = 0; i < 31; ++i){
                 days.push_back(i);
             }
         monthName = "October";
         daysInMonth = days.size();
-    }    
-    else if(currentMonth == 11){
+        }    
+        else if(currentMonth == 11){
             std::vector<int> days;
             for(int i = 0; i < 30; ++i){
                 days.push_back(i);
             }
         monthName = "November";
         daysInMonth = days.size();
-    }    
-    else{
+        }    
+        else{
             std::vector<int> days;
             for(int i = 0; i < 31; ++i){
                 days.push_back(i);
             }
         monthName = "December";
         daysInMonth = days.size();
-    }
-
+        }
     
 
     //Opening prompt
@@ -338,6 +342,105 @@ int main(){
             currentMonth = 1;
             currentYear++;
         }
+
+        if(currentMonth == 1){
+        std::vector<int> days;
+        for(int i = 0; i < 31; ++i){
+            days.push_back(i);
+            }
+        monthName = "January";
+        daysInMonth = days.size();
+        }
+        else if(currentMonth == 2){
+        std::vector<int> days;
+            for(int i = 0; i < 28; ++i){
+                days.push_back(i);
+            }
+        monthName = "February";
+        daysInMonth = days.size();
+        }
+        else if(currentMonth == 3){
+        std::vector<int> days;
+            for(int i = 0; i < 31; ++i){
+                days.push_back(i);
+            }
+        monthName = "March";
+        daysInMonth = days.size();
+        }
+        else if(currentMonth == 4){
+        
+            std::vector<int> days;
+            for(int i = 0; i < 30; ++i){
+                days.push_back(i);
+            }
+        monthName = "April";
+        daysInMonth = days.size();
+        }
+        else if(currentMonth == 5){
+            std::vector<int> days;
+            for(int i = 0; i < 31; ++i){
+                days.push_back(i);
+            }
+        monthName = "May";
+        daysInMonth = days.size();
+        }    
+        else if(currentMonth == 6){
+            std::vector<int> days;
+            for(int i = 0; i < 30; ++i){
+                days.push_back(i);
+            }
+        monthName = "June";
+        daysInMonth = days.size();
+        }    
+        else if(currentMonth == 7){
+            std::vector<int> days;
+            for(int i = 0; i < 31; ++i){
+                days.push_back(i);
+            }
+        monthName = "July";
+        daysInMonth = days.size();
+        }    
+        else if(currentMonth == 8){
+            std::vector<int> days;
+            for(int i = 0; i < 31; ++i){
+                days.push_back(i);
+            }
+        monthName = "August";
+        daysInMonth = days.size();
+        }    
+        else if(currentMonth == 9){
+            std::vector<int> days;
+            for(int i = 0; i < 30; ++i){
+                days.push_back(i);
+            }
+        monthName = "September";
+        daysInMonth = days.size();
+        }    
+        else if(currentMonth == 10){        
+            std::vector<int> days;
+            for(int i = 0; i < 31; ++i){
+                days.push_back(i);
+            }
+        monthName = "October";
+        daysInMonth = days.size();
+        }    
+        else if(currentMonth == 11){
+            std::vector<int> days;
+            for(int i = 0; i < 30; ++i){
+                days.push_back(i);
+            }
+        monthName = "November";
+        daysInMonth = days.size();
+        }    
+        else{
+            std::vector<int> days;
+            for(int i = 0; i < 31; ++i){
+                days.push_back(i);
+            }
+        monthName = "December";
+        daysInMonth = days.size();
+        }
+        
         if(currentMonth == 1){
         monthName = "January";
         }
@@ -354,7 +457,7 @@ int main(){
         monthName = "May";
         }    
         else if(currentMonth == 6){
-        monthName = "June";
+        monthName = "June"; 
         }    
         else if(currentMonth == 7){
         monthName = "July";
@@ -374,7 +477,8 @@ int main(){
         else{
         monthName = "December";
         }
-        
+
+       
 
         //print monthly costs, then prompt user to quit or sim again
         std::cout << "-----------------------------------\n";
@@ -390,6 +494,7 @@ int main(){
         std::cout << "$" << total10 << " earned by " << chiefofficer1.getName() << " last month.\n";
         std::cout << "-----------------------------------\n";
         std::cout << "It is now " << currentMonth << "-" << currentDay<< "-" << currentYear << " (" << monthName << ")" << '\n';
+        std::cout << "There are " << daysInMonth - currentDay << " days left this month\n";
         std::cout << "Last month we made: $" << functionalIncome << '\n';
         std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandtotal << '\n';
         std::cout << "For a difference of : $" << functionalIncome - grandtotal << '\n';
