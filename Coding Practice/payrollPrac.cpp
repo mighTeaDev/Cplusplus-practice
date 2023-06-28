@@ -492,6 +492,11 @@ int main(){
 
         std::cout << "Sim another month? (y/n)\n";
         std::cin >> continueInput;
+        while(continueInput != "y" && continueInput != "n"){
+        std::cout<< "----> Error, please enter 'y' or 'n' <----\n";
+        std::cout << "Would you like to sim a month in the system? (y/n)\n";
+        std::cin >> continueInput;
+    }
         }
     double checkBalanceForMoreThanZero = balance.getBalance();
     if(checkBalanceForMoreThanZero <= 0){
