@@ -12,14 +12,14 @@
 
 //improvements list:
 //write better function for getting totals then clearing them
-//integrate mock calendar instead of 31 day array
+//
 //find ways to improve code reusability between parent and child classes
 
 #include <iostream>
 #include <ctime>
 #include <cmath>
 #include <iomanip>
-#include <format>
+#include <string>
 #include <chrono>
 #include <numeric>
 #include <vector>
@@ -27,21 +27,31 @@
 class Employee {
     protected:
     std::string name;
+    int id;
     double wage;
+
     Employee(std::string name, double wage){
         this->name = name;
         this->wage = wage;
+        this->id = rand() % 1000 + 1;
     }
+
     public:
     void setName(std::string name){
         this->name = name;
     }
+
     std::string getName(){
         return name;
     }
-    double getPaid(){
+
+    int getId() {
+        return id;
+    }
+
+    Payment getPaid(){
         double hoursWorked = rand() % 8 + 1;
-        return wage * hoursWorked;
+        return Payment(wage * hoursWorked, time(NULL), id);
     }
 };
 
@@ -70,49 +80,54 @@ class ChiefOfficer : public Employee{
     ChiefOfficer(std::string name): Employee(name, 135.22){}
 };
 
-class bankBalance {
+class BankBalance {
     private:
     long double balance = 1000000;
     public:
+
     double getBalance(){
         return balance;
     }
+
     void setBalance(long double newBalance){
         this->balance = newBalance;
     }
 };
 
+    //TODO: Getter and setter for amount and private the payment details
+class Payment {
+    public:
+    double amount;
+    long int timestamp;
+    int employeeId;
 
-
+    Payment(double amount, long int timestamp, int employeeId) {
+        this->amount = amount;
+        this->timestamp = timestamp;
+        this->employeeId = employeeId;
+    }
+};
 
 
 int main(){
     srand(time(NULL));
+    BankBalance balance;
     std::string continueInput;
-    double payment1 = 0;
-    double total1 = 0;
-    double payment2 = 0;
-    double total2 = 0;
-    double payment3 = 0;
-    double total3 = 0;
-    double payment4 = 0;
-    double total4 = 0;
-    double payment5 = 0;
-    double total5 = 0;
-    double payment6 = 0;
-    double total6 = 0;
-    double payment7 = 0;
-    double total7 = 0;
-    double payment8 = 0;
-    double total8 = 0;
-    double payment9 = 0;
-    double total9 = 0;
-    double payment10 = 0;
-    double total10 = 0;
-    long double grandtotal = 0;
-    bankBalance balance;
     std::string userName;
     std::string monthName;
+    double grandTotal = 0;
+    std::vector<Payment> payments;
+    std::vector<Employee> employees{
+        SoftwareDev("Dave Crazy"),
+        SoftwareDev("Steve Minecraft"),
+        Engineer("Craig Boolin"),
+        Engineer("Adam Ineve"),
+        Engineer("Timmy Idol"),
+        Accountant("Sandra Bollocks"),
+        Accountant("Michael Angelo"),
+        AdminAsst("Charlie Hoares"),
+        AdminAsst("Bonk Dogger"),
+    };
 
     //Creating an array of days in the month (31 days const for now, find mock calendar integration later)
     
@@ -258,52 +273,21 @@ int main(){
         std::cin >> continueInput;
     }
 
-    //Naming Employees and assigning classes
-    SoftwareDev softwareDev1("Dave Crazy");
-    SoftwareDev softwareDev2("Steve Minecraft");
-
-    Engineer engineer1("Craig Boolin");
-    Engineer engineer2("Adam Ineve");
-    Engineer engineer3("Timmy Idol");
-
-    Accountant accountant1("Sandra Bollocks");
-    Accountant accountant2("Michael Angelo");
-
-    AdminAsst adminasst1("Charlie Hoares");
-    AdminAsst adminasst2("Bonk Dogger");
-
-    ChiefOfficer chiefofficer1(userName);
-
+    employees.push_back(ChiefOfficer(userName));
     
     //Begin program loop
     while(continueInput == "y" && balance.getBalance() >= 0){
 
         //iterate over each day in the month
-        for(int i = 0; i < daysInMonth; ++i){
-            payment1 = softwareDev1.getPaid();
-            total1 += payment1;
-            payment2 = softwareDev2.getPaid();
-            total2 += payment2;
-            payment3 = engineer1.getPaid();
-            total3 += payment3;
-            payment4 = engineer2.getPaid();
-            total4 += payment4;
-            payment5 = engineer3.getPaid();
-            total5 += payment5;
-            payment6 = accountant1.getPaid();
-            total6 += payment6;
-            payment7 = accountant2.getPaid();
-            total7 += payment7;
-            payment8 = adminasst1.getPaid();
-            total8 += payment8;
-            payment9 = adminasst2.getPaid();
-            total9 += payment9;
-            payment10 = chiefofficer1.getPaid();
-            total10 += payment10;
-            grandtotal += (payment1 + payment2 + payment3 + payment4 + payment5 + payment6 + payment7 + payment8 + payment9 + payment10);
+        for(int day = 1; day <= daysInMonth; ++day) {
+            for(auto employee : employees) {
+                Payment employeePayment = employee.getPaid();
+                grandTotal += employeePayment.amount;
+                payments.push_back(employeePayment);
             }
+        }
 
-        long double functionalGrandTotal = grandtotal;    
+        long double functionalGrandTotal = grandTotal;
         long double functionalBalance = balance.getBalance();
         long double functionalIncome = rand() % 200000 + 50000;
         long double newBalance = functionalBalance - functionalGrandTotal + functionalIncome;
@@ -451,24 +435,23 @@ int main(){
 
         //print monthly costs, then prompt user to quit or sim again
         std::cout << "-----------------------------------\n";
-        std::cout << "$" << total1 << " earned by " << softwareDev1.getName() << " last month.\n";
-        std::cout << "$" << total2 << " earned by " << softwareDev2.getName() << " last month.\n";
-        std::cout << "$" << total3 << " earned by " << engineer1.getName() << " last month.\n";
-        std::cout << "$" << total4 << " earned by " << engineer2.getName() << " last month.\n";
-        std::cout << "$" << total5 << " earned by " << engineer3.getName() << " last month.\n";
-        std::cout << "$" << total6 << " earned by " << accountant1.getName() << " last month.\n";
-        std::cout << "$" << total7 << " earned by " << accountant2.getName() << " last month.\n";
-        std::cout << "$" << total8 << " earned by " << adminasst1.getName() << " last month.\n";
-        std::cout << "$" << total9 << " earned by " << adminasst2.getName() << " last month.\n";
-        std::cout << "$" << total10 << " earned by " << chiefofficer1.getName() << " last month.\n";
+        for (auto employee : employees) {
+            double employeeMonthlyPay = 0;
+            for(auto dailyPayment : payments) {
+                if (dailyPayment.employeeId == employee.getId()) {
+                    employeeMonthlyPay += dailyPayment.amount;
+                }
+            }
+            std::cout << "$" << employeeMonthlyPay << " earned by " << employee.getName() << " last month.\n";
+        }
         std::cout << "-----------------------------------\n";
         std::cout << "It is now " << currentMonth << "-" << currentDay<< "-" << currentYear << " (" << monthName << ")" << '\n';
         std::cout << "There are " << daysInMonth - currentDay << " days left this month\n";
         std::cout << "Last month we made: $" << functionalIncome << '\n';
-        std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandtotal << '\n';
-        std::cout << "For a difference of : $" << functionalIncome - grandtotal << '\n';
+        std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandTotal << '\n';
+        std::cout << "For a difference of : $" << functionalIncome - grandTotal << '\n';
         std::cout << "Our new balance is: $" << balance.getBalance() << '\n';
-        if((functionalIncome - grandtotal) > 0){
+        if((functionalIncome - grandTotal) > 0){
             std::cout << "It was a good month, we MADE MONEY!\n";
         }
         else{
@@ -477,18 +460,7 @@ int main(){
         std::cout << "-----------------------------------\n";
 
         //reset the grandtotal counter
-        grandtotal = 0;
-        total1 = 0;
-        total2 = 0;
-        total3 = 0;
-        total4 = 0;
-        total5 = 0;
-        total6 = 0;
-        total7 = 0;
-        total8 = 0;
-        total9 = 0;
-        total10 = 0;
-
+        grandTotal = 0;
 
         std::cout << "Sim another month? (y/n)\n";
         std::cin >> continueInput;
