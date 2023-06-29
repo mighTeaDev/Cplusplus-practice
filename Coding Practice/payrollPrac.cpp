@@ -24,12 +24,39 @@
 #include <numeric>
 #include <vector>
 
+class Payment {
+    private:
+    double amount;
+    long int timestamp;
+    int employeeId;
+
+    public:
+    Payment(double amount, long int timestamp, int employeeId) {
+        this->amount = amount;
+        this->timestamp = timestamp;
+        this->employeeId = employeeId;
+    }
+    void setAmount(double amount){
+        this->amount = amount;
+    }
+    double getAmount(){
+        return amount;
+    }
+    long int getTimestamp(){
+        return timestamp;
+    }
+    int getEmployeeId(){
+        return employeeId;
+    }
+};
+
 class Employee {
-    protected:
+    private:
     std::string name;
     int id;
     double wage;
 
+    protected:
     Employee(std::string name, double wage){
         this->name = name;
         this->wage = wage;
@@ -93,32 +120,7 @@ class BankBalance {
         this->balance = newBalance;
     }
 };
-    //TODO: Getter and setter for amount and private the payment details
-class Payment {
-    protected:
-    double amount;
-    long int timestamp;
-    int employeeId;
 
-    public:
-    Payment(double amount, long int timestamp, int employeeId) {
-        this->amount = amount;
-        this->timestamp = timestamp;
-        this->employeeId = employeeId;
-    }
-    void setAmount(double amount){
-        this->amount = amount;
-    }
-    double getAmount(){
-        return amount;
-    }
-    long int getTimestamp(){
-        return timestamp;
-    }
-    int getEmployeeId(){
-        return employeeId;
-    }
-};
 int main(){
     srand(time(NULL));
     BankBalance balance;
