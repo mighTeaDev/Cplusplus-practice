@@ -27,13 +27,13 @@
 class Payment {
     private:
     double amount;
-    long int timestamp;
+    time_t time;
     int employeeId;
 
     public:
-    Payment(double amount, long int timestamp, int employeeId) {
+    Payment(double amount, long int time, int employeeId) {
         this->amount = amount;
-        this->timestamp = timestamp;
+        this->time = time;
         this->employeeId = employeeId;
     }
     void setAmount(double amount){
@@ -42,8 +42,8 @@ class Payment {
     double getAmount(){
         return amount;
     }
-    long int getTimestamp(){
-        return timestamp;
+    time_t getTime(){
+        return time;
     }
     int getEmployeeId(){
         return employeeId;
@@ -450,7 +450,14 @@ int main(){
         for (auto employee : employees) {
             double employeeMonthlyPay = 0;
             for(auto dailyPayment : payments) {
-                if (dailyPayment.getEmployeeId() == employee.getId()) {
+                time_t paymentTime = dailyPayment.getTime();
+                std::tm* timeinfo;
+                time(&paymentTime);
+                timeinfo = localtime(&paymentTime);
+                int paymentMonth = timeinfo->tm_mon + 1;
+                int paymentYear = timeinfo->tm_year + 1900;
+
+                if (dailyPayment.getEmployeeId() == employee.getId() && paymentMonth == currentMonth && paymentYear == currentYear) {
                     employeeMonthlyPay += dailyPayment.getAmount();
                 }
             }
