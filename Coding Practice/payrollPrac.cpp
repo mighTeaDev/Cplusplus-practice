@@ -48,7 +48,6 @@ class Employee {
     int getId() {
         return id;
     }
-
     Payment getPaid(){
         double hoursWorked = rand() % 8 + 1;
         return Payment(wage * hoursWorked, time(NULL), id);
@@ -95,19 +94,6 @@ class BankBalance {
 };
 
     //TODO: Getter and setter for amount and private the payment details
-class Payment {
-    public:
-    double amount;
-    long int timestamp;
-    int employeeId;
-
-    Payment(double amount, long int timestamp, int employeeId) {
-        this->amount = amount;
-        this->timestamp = timestamp;
-        this->employeeId = employeeId;
-    }
-};
-
 
 int main(){
     srand(time(NULL));
@@ -282,7 +268,7 @@ int main(){
         for(int day = 1; day <= daysInMonth; ++day) {
             for(auto employee : employees) {
                 Payment employeePayment = employee.getPaid();
-                grandTotal += employeePayment.amount;
+                grandTotal += employeePayment.getPaymentAmount();
                 payments.push_back(employeePayment);
             }
         }
@@ -438,8 +424,8 @@ int main(){
         for (auto employee : employees) {
             double employeeMonthlyPay = 0;
             for(auto dailyPayment : payments) {
-                if (dailyPayment.employeeId == employee.getId()) {
-                    employeeMonthlyPay += dailyPayment.amount;
+                if (dailyPayment.getEmployeeID() == employee.getId()) {
+                    employeeMonthlyPay += dailyPayment.getPaymentAmount();
                 }
             }
             std::cout << "$" << employeeMonthlyPay << " earned by " << employee.getName() << " last month.\n";
