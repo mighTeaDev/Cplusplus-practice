@@ -54,6 +54,7 @@ class Employee {
     }
 };
 
+
 class SoftwareDev : public Employee {
     public:
     SoftwareDev(std::string name): Employee(name, 65.22){}
@@ -94,7 +95,18 @@ class BankBalance {
 };
 
     //TODO: Getter and setter for amount and private the payment details
+class Payment {
+    public:
+    double amount;
+    long int timestamp;
+    int employeeId;
 
+    Payment(double amount, long int timestamp, int employeeId) {
+        this->amount = amount;
+        this->timestamp = timestamp;
+        this->employeeId = employeeId;
+    }
+};
 int main(){
     srand(time(NULL));
     BankBalance balance;
