@@ -96,15 +96,29 @@ class BankBalance {
 
     //TODO: Getter and setter for amount and private the payment details
 class Payment {
-    public:
+    protected:
     double amount;
     long int timestamp;
     int employeeId;
 
+    
+    public:
     Payment(double amount, long int timestamp, int employeeId) {
         this->amount = amount;
         this->timestamp = timestamp;
         this->employeeId = employeeId;
+    }
+    void setAmount(double amount){
+        this->amount = amount;
+    }
+    double getAmount(){
+        return amount;
+    }
+    long int getTimestamp(){
+        return amount;
+    }
+    int getEmployeeId(){
+        return amount;
     }
 };
 int main(){
@@ -280,7 +294,7 @@ int main(){
         for(int day = 1; day <= daysInMonth; ++day) {
             for(auto employee : employees) {
                 Payment employeePayment = employee.getPaid();
-                grandTotal += employeePayment.getPaymentAmount();
+                grandTotal += employeePayment.getAmount();
                 payments.push_back(employeePayment);
             }
         }
@@ -436,8 +450,8 @@ int main(){
         for (auto employee : employees) {
             double employeeMonthlyPay = 0;
             for(auto dailyPayment : payments) {
-                if (dailyPayment.getEmployeeID() == employee.getId()) {
-                    employeeMonthlyPay += dailyPayment.getPaymentAmount();
+                if (dailyPayment.getEmployeeId() == employee.getId()) {
+                    employeeMonthlyPay += dailyPayment.getAmount();
                 }
             }
             std::cout << "$" << employeeMonthlyPay << " earned by " << employee.getName() << " last month.\n";
