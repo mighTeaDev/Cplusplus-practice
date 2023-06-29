@@ -93,7 +93,6 @@ class BankBalance {
         this->balance = newBalance;
     }
 };
-
     //TODO: Getter and setter for amount and private the payment details
 class Payment {
     protected:
@@ -101,7 +100,6 @@ class Payment {
     long int timestamp;
     int employeeId;
 
-    
     public:
     Payment(double amount, long int timestamp, int employeeId) {
         this->amount = amount;
@@ -115,10 +113,10 @@ class Payment {
         return amount;
     }
     long int getTimestamp(){
-        return amount;
+        return timestamp;
     }
     int getEmployeeId(){
-        return amount;
+        return employeeId;
     }
 };
 int main(){
