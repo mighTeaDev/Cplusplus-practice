@@ -126,7 +126,6 @@ int main(){
     BankBalance balance;
     std::string continueInput;
     std::string userName;
-    std::string monthName;
     double grandTotal = 0;
     std::vector<Payment> payments;
     std::vector<Employee> employees{
@@ -156,64 +155,24 @@ int main(){
         userTimeZoneOffset += 3600;  // Add 1 hour (3600 seconds) for daylight saving time
     }
 
-    int currentYear = timeinfo->tm_year + 1900;
-    int currentMonth = timeinfo->tm_mon + 1;
-    int currentDay = timeinfo->tm_mday;
-    int daysInMonth;
+    int simulatedYear = timeinfo->tm_year + 1900;
+    int simulatedMonth = timeinfo->tm_mon + 1;
+    int simulatedDay = timeinfo->tm_mday;
     
-    if(currentMonth > 12) {
-            currentMonth = 1;
-            currentYear++;
-    }
-
-    if(currentMonth == 1) {
-        monthName = "January";
-        daysInMonth = 31;
-    }
-    else if(currentMonth == 2) {
-        monthName = "February";
-        daysInMonth = 28;
-    }
-    else if(currentMonth == 3) {
-        monthName = "March";
-        daysInMonth = 31;
-    }
-    else if(currentMonth == 4){
-        monthName = "April";
-        daysInMonth = 30;
-    }
-    else if(currentMonth == 5){
-        monthName = "May";
-        daysInMonth = 31;
-    }    
-    else if(currentMonth == 6){
-        monthName = "June";
-        daysInMonth = 30;
-    }    
-    else if(currentMonth == 7){
-        monthName = "July";
-        daysInMonth = 31;
-    }    
-    else if(currentMonth == 8){
-        monthName = "August";
-        daysInMonth = 31;
-    }    
-    else if(currentMonth == 9){
-        monthName = "September";
-        daysInMonth = 30;
-    }    
-    else if(currentMonth == 10){        
-        monthName = "October";
-        daysInMonth = 31;
-    }    
-    else if(currentMonth == 11){
-        monthName = "November";
-        daysInMonth = 30;
-    }    
-    else{
-        monthName = "December";
-        daysInMonth = 31;
-    }
+    std::pair<std::string, int> months[] = {
+        std::make_pair("January", 31),
+        std::make_pair("February", 28),
+        std::make_pair("March", 31),
+        std::make_pair("April", 30),
+        std::make_pair("May", 31),
+        std::make_pair("June", 30),
+        std::make_pair("July", 31),
+        std::make_pair("August", 31),
+        std::make_pair("September", 30),
+        std::make_pair("October", 31),
+        std::make_pair("November", 30),
+        std::make_pair("December", 31)
+    };
     
 
     //Opening prompt
@@ -223,14 +182,14 @@ int main(){
     std::cout << "-----------------------------------\n";
     std::cout << "Welcome, " << userName << '\n';
     std::cout << "You have signed in as a super user.\n";
-    std::cout << "The current date is: " << currentYear << "-" << currentMonth << "-" << currentDay << '\n';
-    std::cout << "There are " << daysInMonth - currentDay << " days left in the month of " << monthName << "\n";
+    std::cout << "The current date is: " << simulatedYear << "-" << simulatedMonth << "-" << simulatedDay << '\n';
+    std::cout << "There are " << months[simulatedMonth - 1].second - simulatedDay << " days left in the month of " << months[simulatedMonth - 1].first << "\n";
     std::cout << "Our cash balance is: $" << std::fixed << std::setprecision(2) << balance.getBalance() << '\n';
     std::cout << "-----------------------------------\n";
     std::cout << "Would you like to sim a month in the system? (y/n)\n";
     std::cin >> continueInput;
 
-    while(continueInput != "y" && continueInput != "n"){
+    while(continueInput != "y" && continueInput != "n") {
         std::cout<< "----> Error, please enter 'y' or 'n' <----\n";
         std::cout << "Would you like to sim a month in the system? (y/n)\n";
         std::cin >> continueInput;
@@ -242,7 +201,7 @@ int main(){
     while(continueInput == "y" && balance.getBalance() >= 0){
 
         //iterate over each day in the month
-        for(int day = 1; day <= daysInMonth; ++day) {
+        for(int day = 1; day <= months[simulatedMonth - 1].second; ++day) {
             for(auto employee : employees) {
                 Payment employeePayment = employee.getPaid();
                 grandTotal += employeePayment.getAmount();
@@ -255,146 +214,6 @@ int main(){
         long double functionalIncome = rand() % 200000 + 50000;
         long double newBalance = functionalBalance - functionalGrandTotal + functionalIncome;
         balance.setBalance(newBalance);
-        currentMonth++;
-        if(currentMonth > 12){
-            currentMonth = 1;
-            currentYear++;
-        }
-
-        if(currentMonth == 1){
-        std::vector<int> days;
-        for(int i = 0; i < 31; ++i){
-            days.push_back(i);
-            }
-        monthName = "January";
-        daysInMonth = days.size();
-        }
-        else if(currentMonth == 2){
-        std::vector<int> days;
-            for(int i = 0; i < 28; ++i){
-                days.push_back(i);
-            }
-        monthName = "February";
-        daysInMonth = days.size();
-        }
-        else if(currentMonth == 3){
-        std::vector<int> days;
-            for(int i = 0; i < 31; ++i){
-                days.push_back(i);
-            }
-        monthName = "March";
-        daysInMonth = days.size();
-        }
-        else if(currentMonth == 4){
-        
-            std::vector<int> days;
-            for(int i = 0; i < 30; ++i){
-                days.push_back(i);
-            }
-        monthName = "April";
-        daysInMonth = days.size();
-        }
-        else if(currentMonth == 5){
-            std::vector<int> days;
-            for(int i = 0; i < 31; ++i){
-                days.push_back(i);
-            }
-        monthName = "May";
-        daysInMonth = days.size();
-        }    
-        else if(currentMonth == 6){
-            std::vector<int> days;
-            for(int i = 0; i < 30; ++i){
-                days.push_back(i);
-            }
-        monthName = "June";
-        daysInMonth = days.size();
-        }    
-        else if(currentMonth == 7){
-            std::vector<int> days;
-            for(int i = 0; i < 31; ++i){
-                days.push_back(i);
-            }
-        monthName = "July";
-        daysInMonth = days.size();
-        }    
-        else if(currentMonth == 8){
-            std::vector<int> days;
-            for(int i = 0; i < 31; ++i){
-                days.push_back(i);
-            }
-        monthName = "August";
-        daysInMonth = days.size();
-        }    
-        else if(currentMonth == 9){
-            std::vector<int> days;
-            for(int i = 0; i < 30; ++i){
-                days.push_back(i);
-            }
-        monthName = "September";
-        daysInMonth = days.size();
-        }    
-        else if(currentMonth == 10){        
-            std::vector<int> days;
-            for(int i = 0; i < 31; ++i){
-                days.push_back(i);
-            }
-        monthName = "October";
-        daysInMonth = days.size();
-        }    
-        else if(currentMonth == 11){
-            std::vector<int> days;
-            for(int i = 0; i < 30; ++i){
-                days.push_back(i);
-            }
-        monthName = "November";
-        daysInMonth = days.size();
-        }    
-        else{
-            std::vector<int> days;
-            for(int i = 0; i < 31; ++i){
-                days.push_back(i);
-            }
-        monthName = "December";
-        daysInMonth = days.size();
-        }
-        
-        if(currentMonth == 1){
-        monthName = "January";
-        }
-        else if(currentMonth == 2){
-        monthName = "February";
-        }
-        else if(currentMonth == 3){
-        monthName = "March";
-        }
-        else if(currentMonth == 4){
-        monthName = "April";
-        }
-        else if(currentMonth == 5){
-        monthName = "May";
-        }    
-        else if(currentMonth == 6){
-        monthName = "June"; 
-        }    
-        else if(currentMonth == 7){
-        monthName = "July";
-        }    
-        else if(currentMonth == 8){
-        monthName = "August";
-        }    
-        else if(currentMonth == 9){
-        monthName = "September";
-        }    
-        else if(currentMonth == 10){        
-        monthName = "October";
-        }    
-        else if(currentMonth == 11){
-        monthName = "November";
-        }    
-        else{
-        monthName = "December";
-        }
 
         //print monthly costs, then prompt user to quit or sim again
         std::cout << "-----------------------------------\n";
@@ -415,8 +234,8 @@ int main(){
             std::cout << "$" << employeeMonthlyPay << " earned by " << employee.getName() << " last month.\n";
         }
         std::cout << "-----------------------------------\n";
-        std::cout << "It is now " << currentMonth << "-" << currentDay<< "-" << currentYear << " (" << monthName << ")" << '\n';
-        std::cout << "There are " << daysInMonth - currentDay << " days left this month\n";
+        std::cout << "It is now " << simulatedMonth << "-" << simulatedDay<< "-" << simulatedYear << " (" << months[simulatedMonth - 1].first << ")" << '\n';
+        std::cout << "There are " << months[simulatedMonth - 1].second - simulatedDay << " days left this month\n";
         std::cout << "Last month we made: $" << functionalIncome << '\n';
         std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandTotal << '\n';
         std::cout << "For a difference of : $" << functionalIncome - grandTotal << '\n';
@@ -431,6 +250,11 @@ int main(){
 
         //reset the grandtotal counter
         grandTotal = 0;
+        simulatedMonth++;
+        if(simulatedMonth > 12){
+            simulatedMonth = 1;
+            simulatedYear++;
+        }
 
         std::cout << "Sim another month? (y/n)\n";
         std::cin >> continueInput;
@@ -440,6 +264,7 @@ int main(){
         std::cin >> continueInput;
     }
         }
+
     double checkBalanceForMoreThanZero = balance.getBalance();
     if(checkBalanceForMoreThanZero <= 0){
         std::cout << "-----------------------------------\n";
@@ -452,6 +277,7 @@ int main(){
         std::cout << "----------program closed.----------\n";
         std::cout << "-----------------------------------\n";
     }
+
 system("pause");
 return 0;    
 }
