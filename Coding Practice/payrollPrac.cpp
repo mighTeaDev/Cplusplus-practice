@@ -75,9 +75,9 @@ class Employee {
     int getId() {
         return id;
     }
-    Payment getPaid(){
+    Payment getPaid(time_t simulatedTime = NULL) {
         double hoursWorked = rand() % 8 + 1;
-        return Payment(wage * hoursWorked, time(NULL), id);
+        return Payment(wage * hoursWorked, simulatedTime == NULL ? time(NULL) : simulatedTime, id);
     }
 };
 
@@ -158,7 +158,7 @@ int main(){
     int simulatedYear = timeinfo->tm_year + 1900;
     int simulatedMonth = timeinfo->tm_mon + 1;
     int simulatedDay = timeinfo->tm_mday;
-    
+
     std::pair<std::string, int> months[] = {
         std::make_pair("January", 31),
         std::make_pair("February", 28),
@@ -198,12 +198,19 @@ int main(){
     employees.push_back(ChiefOfficer(userName));
     
     //Begin program loop
-    while(continueInput == "y" && balance.getBalance() >= 0){
+    while(continueInput == "y" && balance.getBalance() >= 0) {
+        // Get current time
+        std::time_t t = std::time(0);
+        std::tm* now = std::localtime(&t);
+        now->tm_mon = simulatedMonth - 1;
+        now->tm_year = simulatedYear - 1900;
+        now->tm_mday = 1;
+        std::time_t future = std::mktime(now);
 
         //iterate over each day in the month
         for(int day = 1; day <= months[simulatedMonth - 1].second; ++day) {
             for(auto employee : employees) {
-                Payment employeePayment = employee.getPaid();
+                Payment employeePayment = employee.getPaid(future);
                 grandTotal += employeePayment.getAmount();
                 payments.push_back(employeePayment);
             }
@@ -221,13 +228,10 @@ int main(){
             double employeeMonthlyPay = 0;
             for(auto dailyPayment : payments) {
                 time_t paymentTime = dailyPayment.getTime();
-                std::tm* timeinfo;
-                time(&paymentTime);
-                timeinfo = localtime(&paymentTime);
+                std::tm* timeinfo = std::localtime(&paymentTime);
                 int paymentMonth = timeinfo->tm_mon + 1;
                 int paymentYear = timeinfo->tm_year + 1900;
-
-                if (dailyPayment.getEmployeeId() == employee.getId() && paymentMonth == currentMonth && paymentYear == currentYear) {
+                if (dailyPayment.getEmployeeId() == employee.getId() && paymentMonth == simulatedMonth && paymentYear == simulatedYear) {
                     employeeMonthlyPay += dailyPayment.getAmount();
                 }
             }
@@ -259,11 +263,11 @@ int main(){
         std::cout << "Sim another month? (y/n)\n";
         std::cin >> continueInput;
         while(continueInput != "y" && continueInput != "n"){
-        std::cout<< "----> Error, please enter 'y' or 'n' <----\n";
-        std::cout << "Would you like to sim a month in the system? (y/n)\n";
-        std::cin >> continueInput;
-    }
+            std::cout<< "----> Error, please enter 'y' or 'n' <----\n";
+            std::cout << "Would you like to sim a month in the system? (y/n)\n";
+            std::cin >> continueInput;
         }
+    }
 
     double checkBalanceForMoreThanZero = balance.getBalance();
     if(checkBalanceForMoreThanZero <= 0){
@@ -278,6 +282,6 @@ int main(){
         std::cout << "-----------------------------------\n";
     }
 
-system("pause");
-return 0;    
+    system("pause");
+    return 0;
 }
