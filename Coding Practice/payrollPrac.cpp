@@ -182,7 +182,7 @@ int main(){
     std::cout << "-----------------------------------\n";
     std::cout << "Welcome, " << userName << '\n';
     std::cout << "You have signed in as a super user.\n";
-    std::cout << "The current date is: " << simulatedYear << "-" << simulatedMonth << "-" << simulatedDay << '\n';
+    std::cout << "The current date is: " << simulatedYear << "-" << simulatedMonth << "-" << simulatedDay << std::endl;
     std::cout << "There are " << months[simulatedMonth - 1].second - simulatedDay << " days left in the month of " << months[simulatedMonth - 1].first << "\n";
     std::cout << "Our cash balance is: $" << std::fixed << std::setprecision(2) << balance.getBalance() << '\n';
     std::cout << "-----------------------------------\n";
@@ -241,12 +241,12 @@ int main(){
             std::cout << "$" << employeeMonthlyPay << " earned by " << employee.getName() << " last month.\n";
         }
         std::cout << "-----------------------------------\n";
-        std::cout << "It is now " << simulatedMonth << "-" << simulatedDay<< "-" << simulatedYear << " (" << months[simulatedMonth - 1].first << ")" << '\n';
+        std::cout << "It is now " << simulatedMonth << "-" << simulatedDay<< "-" << simulatedYear << " (" << months[simulatedMonth - 1].first << ")" << std::endl;
         std::cout << "There are " << months[simulatedMonth - 1].second - simulatedDay << " days left this month\n";
-        std::cout << "Last month we made: $" << functionalIncome << '\n';
-        std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandTotal << '\n';
-        std::cout << "For a difference of : $" << functionalIncome - grandTotal << '\n';
-        std::cout << "Our new balance is: $" << balance.getBalance() << '\n';
+        std::cout << "Last month we made: $" << functionalIncome << std::endl;
+        std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandTotal << std::endl;
+        std::cout << "For a difference of : $" << functionalIncome - grandTotal << std::endl;
+        std::cout << "Our new balance is: $" << balance.getBalance() << std::endl;
         if((functionalIncome - grandTotal) > 0){
             std::cout << "It was a good month, we MADE MONEY!\n";
         }
