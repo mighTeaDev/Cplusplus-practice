@@ -199,7 +199,7 @@ int main(){
     
     //Begin program loop
     while(continueInput == "y" && balance.getBalance() >= 0) {
-        // Get current time
+        // Calculate simulated time from current time
         std::time_t t = std::time(0);
         std::tm* now = std::localtime(&t);
         now->tm_mon = simulatedMonth - 1;
@@ -207,7 +207,7 @@ int main(){
         now->tm_mday = 1;
         std::time_t future = std::mktime(now);
 
-        //iterate over each day in the month
+        // create payments for all employees for each day of the month and update grand total
         for(int day = 1; day <= months[simulatedMonth - 1].second; ++day) {
             for(auto employee : employees) {
                 Payment employeePayment = employee.getPaid(future);
@@ -231,7 +231,10 @@ int main(){
                 std::tm* timeinfo = std::localtime(&paymentTime);
                 int paymentMonth = timeinfo->tm_mon + 1;
                 int paymentYear = timeinfo->tm_year + 1900;
-                if (dailyPayment.getEmployeeId() == employee.getId() && paymentMonth == simulatedMonth && paymentYear == simulatedYear) {
+
+                bool paymentIsFromThisMonth = paymentMonth == simulatedMonth && paymentYear == simulatedYear;
+                bool paymentIsForThisEmployee = dailyPayment.getEmployeeId() == employee.getId();
+                if (paymentIsForThisEmployee && paymentIsFromThisMonth) {
                     employeeMonthlyPay += dailyPayment.getAmount();
                 }
             }
