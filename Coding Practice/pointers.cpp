@@ -18,6 +18,7 @@ int main()
     std::string freePizza[5] = {"pizza 1", "pizza 2", "pizza 3", "pizza 4", "pizza 5"};
 
     int *pAge = &age;
+    cout << &age << endl;
     string *pName = &name;
     string *pFreePizza = freePizza;
 
@@ -25,5 +26,8 @@ int main()
     cout << *pName << "\n";
     cout << *pAge << "\n";
     cout << *freePizza << "\n";
+    cout << pAge + 1 << "\n";
+    cout << *pAge + 1 << "\n";
+
 return 0;
 }

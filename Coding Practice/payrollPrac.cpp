@@ -9,10 +9,7 @@
 //Would you like to simulate another month (y/n)
 //n closes program, y continues payroll sim
 
-
 //improvements list:
-//write better function for getting totals then clearing them
-//
 //find ways to improve code reusability between parent and child classes
 
 #include <iostream>
@@ -215,7 +212,6 @@ int main(){
                 payments.push_back(employeePayment);
             }
         }
-
         long double functionalGrandTotal = grandTotal;
         long double functionalBalance = balance.getBalance();
         long double functionalIncome = rand() % 200000 + 50000;
@@ -241,7 +237,7 @@ int main(){
             std::cout << "$" << employeeMonthlyPay << " earned by " << employee.getName() << " last month.\n";
         }
         std::cout << "-----------------------------------\n";
-        std::cout << "It is now " << simulatedMonth << "-" << simulatedDay<< "-" << simulatedYear << " (" << months[simulatedMonth - 1].first << ")" << std::endl;
+        std::cout << "The date is " << simulatedMonth << "-" << simulatedDay<< "-" << simulatedYear << " (" << months[simulatedMonth - 1].first << ")" << std::endl;
         std::cout << "There are " << months[simulatedMonth - 1].second - simulatedDay << " days left this month\n";
         std::cout << "Last month we made: $" << functionalIncome << std::endl;
         std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandTotal << std::endl;
