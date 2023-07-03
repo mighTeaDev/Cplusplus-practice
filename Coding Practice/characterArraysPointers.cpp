@@ -22,6 +22,8 @@ int main()
     D[5] = '\0';
     std::cout << C << std::endl;
     std::cout << D << std::endl;
+    //below is same as *(C2 + 1)
+    std::cout << C2[1] << std::endl;
 
 return 0;
 }
