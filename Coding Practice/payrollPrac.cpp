@@ -118,8 +118,64 @@ class BankBalance {
     }
 };
 
+class DateHandler{
+    private:
+        void initializeTime(){
+            std::time_t t_time = std::time(nullptr);
+            std::tm* timeinfo = std::localtime(&t_time);
+            std::time_t current_time = std::mktime(timeinfo);
+            std::tm* local_timeinfo = std::localtime(&current_time);
+            std::time_t utc_time = std::mktime(local_timeinfo);
+            int userTimeZoneOffset = std::difftime(current_time, utc_time);
+            if (local_timeinfo->tm_isdst > 0) {
+                userTimeZoneOffset += 3600;  // Add 1 hour (3600 seconds) for daylight saving time
+            }
+
+            simulatedYear = timeinfo->tm_year + 1900;
+            simulatedMonth = timeinfo->tm_mon + 1;
+            simulatedDay = timeinfo->tm_mday;
+
+        }
+        
+
+    public:
+        DateHandler(){
+            initializeTime();  
+        }
+        int simulatedYear;
+        int simulatedMonth;
+        int simulatedDay;
+
+        std::pair<std::string, int> months[12] = 
+            {std::make_pair("January", 31),
+            std::make_pair("February", 28),
+            std::make_pair("March", 31),
+            std::make_pair("April", 30),
+            std::make_pair("May", 31),
+            std::make_pair("June", 30),
+            std::make_pair("July", 31),
+            std::make_pair("August", 31),
+            std::make_pair("September", 30),
+            std::make_pair("October", 31),
+            std::make_pair("November", 30),
+            std::make_pair("December", 31)};
+
+        void incrementMonth(){
+            if(simulatedMonth == 12){
+                simulatedMonth = 1;
+                simulatedYear++;
+            }
+            else{
+                simulatedMonth++;
+            }
+        }
+
+};
+
+
 int main(){
     srand(time(NULL));
+    DateHandler dateHandler;
     BankBalance balance;
     std::string continueInput;
     std::string userName;
@@ -138,38 +194,8 @@ int main(){
     };
 
     //Creating an array of days in the month (31 days const for now, find mock calendar integration later)
-    
     // Get the current system time
-    std::time_t t_time = std::time(nullptr);
-
     // Update the time zone information
-    std::tm* timeinfo = std::localtime(&t_time);
-    std::time_t current_time = std::mktime(timeinfo);
-    std::tm* local_timeinfo = std::localtime(&current_time);
-    std::time_t utc_time = std::mktime(local_timeinfo);
-    int userTimeZoneOffset = std::difftime(current_time, utc_time);
-    if (local_timeinfo->tm_isdst > 0) {
-        userTimeZoneOffset += 3600;  // Add 1 hour (3600 seconds) for daylight saving time
-    }
-
-    int simulatedYear = timeinfo->tm_year + 1900;
-    int simulatedMonth = timeinfo->tm_mon + 1;
-    int simulatedDay = timeinfo->tm_mday;
-
-    std::pair<std::string, int> months[] = {
-        std::make_pair("January", 31),
-        std::make_pair("February", 28),
-        std::make_pair("March", 31),
-        std::make_pair("April", 30),
-        std::make_pair("May", 31),
-        std::make_pair("June", 30),
-        std::make_pair("July", 31),
-        std::make_pair("August", 31),
-        std::make_pair("September", 30),
-        std::make_pair("October", 31),
-        std::make_pair("November", 30),
-        std::make_pair("December", 31)
-    };
     
 
     //Opening prompt
@@ -179,8 +205,8 @@ int main(){
     std::cout << "-----------------------------------\n";
     std::cout << "Welcome, " << userName << '\n';
     std::cout << "You have signed in as a super user.\n";
-    std::cout << "The current date is: " << simulatedYear << "-" << simulatedMonth << "-" << simulatedDay << std::endl;
-    std::cout << "There are " << months[simulatedMonth - 1].second - simulatedDay << " days left in the month of " << months[simulatedMonth - 1].first << "\n";
+    std::cout << "The current date is: " << dateHandler.simulatedYear << "-" << dateHandler.simulatedMonth << "-" << dateHandler.simulatedDay << std::endl;
+    std::cout << "There are " << dateHandler.months[dateHandler.simulatedMonth - 1].second - dateHandler.simulatedDay << " days left in the month of " << dateHandler.months[dateHandler.simulatedMonth - 1].first << "\n";
     std::cout << "Our cash balance is: $" << std::fixed << std::setprecision(2) << balance.getBalance() << '\n';
     std::cout << "-----------------------------------\n";
     std::cout << "Would you like to sim a month in the system? (y/n)\n";
@@ -199,13 +225,13 @@ int main(){
         // Calculate simulated time from current time
         std::time_t t = std::time(0);
         std::tm* now = std::localtime(&t);
-        now->tm_mon = simulatedMonth - 1;
-        now->tm_year = simulatedYear - 1900;
+        now->tm_mon = dateHandler.simulatedMonth - 1;
+        now->tm_year = dateHandler.simulatedYear - 1900;
         now->tm_mday = 1;
         std::time_t future = std::mktime(now);
 
         // create payments for all employees for each day of the month and update grand total
-        for(int day = 1; day <= months[simulatedMonth - 1].second; ++day) {
+        for(int day = 1; day <= dateHandler.months[dateHandler.simulatedMonth - 1].second; ++day) {
             for(auto employee : employees) {
                 Payment employeePayment = employee.getPaid(future);
                 grandTotal += employeePayment.getAmount();
@@ -228,7 +254,7 @@ int main(){
                 int paymentMonth = timeinfo->tm_mon + 1;
                 int paymentYear = timeinfo->tm_year + 1900;
 
-                bool paymentIsFromThisMonth = paymentMonth == simulatedMonth && paymentYear == simulatedYear;
+                bool paymentIsFromThisMonth = paymentMonth == dateHandler.simulatedMonth && paymentYear == dateHandler.simulatedYear;
                 bool paymentIsForThisEmployee = dailyPayment.getEmployeeId() == employee.getId();
                 if (paymentIsForThisEmployee && paymentIsFromThisMonth) {
                     employeeMonthlyPay += dailyPayment.getAmount();
@@ -237,8 +263,8 @@ int main(){
             std::cout << "$" << employeeMonthlyPay << " earned by " << employee.getName() << " last month.\n";
         }
         std::cout << "-----------------------------------\n";
-        std::cout << "The date is " << simulatedMonth << "-" << simulatedDay<< "-" << simulatedYear << " (" << months[simulatedMonth - 1].first << ")" << std::endl;
-        std::cout << "There are " << months[simulatedMonth - 1].second - simulatedDay << " days left this month\n";
+        std::cout << "The date is " << dateHandler.simulatedMonth << "-" << dateHandler.simulatedDay<< "-" << dateHandler.simulatedYear << " (" << dateHandler.months[dateHandler.simulatedMonth - 1].first << ")" << std::endl;
+        std::cout << "There are " << dateHandler.months[dateHandler.simulatedMonth - 1].second - dateHandler.simulatedDay << " days left this month\n";
         std::cout << "Last month we made: $" << functionalIncome << std::endl;
         std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandTotal << std::endl;
         std::cout << "For a difference of : $" << functionalIncome - grandTotal << std::endl;
@@ -253,11 +279,7 @@ int main(){
 
         //reset the grandtotal counter
         grandTotal = 0;
-        simulatedMonth++;
-        if(simulatedMonth > 12){
-            simulatedMonth = 1;
-            simulatedYear++;
-        }
+        dateHandler.incrementMonth();
 
         std::cout << "Sim another month? (y/n)\n";
         std::cin >> continueInput;
