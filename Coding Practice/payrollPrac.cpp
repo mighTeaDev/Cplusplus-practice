@@ -11,6 +11,7 @@
 
 //improvements list:
 //find ways to improve code reusability between parent and child classes
+//!FIX DATES NOT CHANGING ON SIMULATION
 
 #include <iostream>
 #include <ctime>
@@ -112,9 +113,16 @@ class BankBalance {
     double getBalance(){
         return balance;
     }
-
     void setBalance(long double newBalance){
         this->balance = newBalance;
+    }
+    void bankruptChecker(std::string &continueInput){
+    if(balance <= 0){
+        std::cout << "-----------------------------------\n";
+        std::cout << "WARNING: You have bankrupted the company and been kicked off the system\n";
+        std::cout << "-----------------------------------\n";
+        continueInput = "n";
+        }
     }
 };
 
@@ -136,7 +144,6 @@ class DateHandler{
             simulatedDay = timeinfo->tm_mday;
 
         }
-        
 
     public:
         DateHandler(){
@@ -169,18 +176,95 @@ class DateHandler{
                 simulatedMonth++;
             }
         }
-
+        void printDate(){
+           std::cout << "The current date is: " << simulatedMonth << "-" << simulatedDay << "-" << simulatedYear << std::endl;
+        }
+        void printDaysLeftInMonth(){
+            std::cout << "There are " << months[simulatedMonth - 1].second - simulatedDay << " days left in the month of " << months[simulatedMonth - 1].first << "\n";
+        }
 };
 
+class UserInterface : public BankBalance, public DateHandler{
+    public:
+        void welcomeMessage(){
+            std::cout << "-----------Kairo Payroll-----------\n";
+            std::cout << "Please enter your name: \n";
+        }
+        std::string setUserName(std::string &userName){
+            std::getline(std::cin, userName);
+            return userName;
+        }
+        void login(std::string &userName){
+            if(userName == "superuser"){
+            std::cout << "-----------------------------------\n";
+            std::cout << "Welcome, " << userName << '\n';
+            std::cout << "You have signed in as a super user.\n";
+            std::cout << "-----------------------------------\n";
+            printDate();
+            printDaysLeftInMonth();
+            }
+            else{
+                std::cout << "-----------------------------------\n";
+                std::cout << "Access Denied" << '\n';
+                welcomeMessage();
+                setUserName(userName);
+                login(userName);
+        }
+        }
+        void printBalance(){
+            double balance = getBalance();
+            std::cout << "Our cash balance is: $" << std::fixed << std::setprecision(2) << balance << '\n';
+        }
+        void askToSim(std::string &continueInput){
+            std::cout << "-----------------------------------\n";
+            std::cout << "Would you like to sim a month in the system? (y/n)\n";
+            std::cin >> continueInput;
 
+            while(continueInput != "y" && continueInput != "n") {
+                std::cout<< "----> Error, please enter 'y' or 'n' <----\n";
+                std::cout << "Would you like to sim a month in the system? (y/n)\n";
+                std::cin >> continueInput;
+                }
+            closeProgram(continueInput);
+        }
+        void monthlyPrintOut(long double functionalIncome, long double grandTotal, long double &newBalance){
+            std::cout << "-----------------------------------\n";
+            //!NOT WORKING
+            printDate();
+            printDaysLeftInMonth();
+            std::cout << "Last month we made: $" << functionalIncome << std::endl;
+            std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandTotal << std::endl;
+            std::cout << "For a difference of : $" << functionalIncome - grandTotal << std::endl;
+            std::cout << "Our NEW cash balance is: $" << std::fixed << std::setprecision(2) << newBalance << '\n';
+            if((functionalIncome - grandTotal) > 0){
+            std::cout << "It was a good month, we MADE MONEY!\n";
+            }
+            else{
+                std::cout << "It was a bad month, we LOST MONEY\n";
+            }
+        }
+        void closeProgram(std::string &continueInput){
+            if(continueInput == "n"){
+                std::cout << "-----------------------------------\n";
+                std::cout << "Thank you for using Kairo Payroll\n";
+                std::cout << "-----------------------------------\n";
+                exit(0);
+            }
+        }
+};
 int main(){
+
+    //initialize variables/classes
     srand(time(NULL));
     DateHandler dateHandler;
     BankBalance balance;
+    UserInterface userInterface;
     std::string continueInput;
     std::string userName;
     double grandTotal = 0;
     std::vector<Payment> payments;
+
+    //initialize employees
     std::vector<Employee> employees{
         SoftwareDev("Dave Crazy"),
         SoftwareDev("Steve Minecraft"),
@@ -192,35 +276,15 @@ int main(){
         AdminAsst("Charlie Hoares"),
         AdminAsst("Bonk Dogger"),
     };
-
-    //Creating an array of days in the month (31 days const for now, find mock calendar integration later)
-    // Get the current system time
-    // Update the time zone information
     
-
-    //Opening prompt
-    std::cout << "-----------Kairo Payroll-----------\n";
-    std::cout << "Please enter your name: \n";
-    std::getline(std::cin, userName);
-    std::cout << "-----------------------------------\n";
-    std::cout << "Welcome, " << userName << '\n';
-    std::cout << "You have signed in as a super user.\n";
-    std::cout << "The current date is: " << dateHandler.simulatedYear << "-" << dateHandler.simulatedMonth << "-" << dateHandler.simulatedDay << std::endl;
-    std::cout << "There are " << dateHandler.months[dateHandler.simulatedMonth - 1].second - dateHandler.simulatedDay << " days left in the month of " << dateHandler.months[dateHandler.simulatedMonth - 1].first << "\n";
-    std::cout << "Our cash balance is: $" << std::fixed << std::setprecision(2) << balance.getBalance() << '\n';
-    std::cout << "-----------------------------------\n";
-    std::cout << "Would you like to sim a month in the system? (y/n)\n";
-    std::cin >> continueInput;
-
-    while(continueInput != "y" && continueInput != "n") {
-        std::cout<< "----> Error, please enter 'y' or 'n' <----\n";
-        std::cout << "Would you like to sim a month in the system? (y/n)\n";
-        std::cin >> continueInput;
-    }
-
+    userInterface.welcomeMessage();
+    userInterface.setUserName(userName);
+    userInterface.login(userName);
+    userInterface.printBalance();
+    userInterface.askToSim(continueInput);
     employees.push_back(ChiefOfficer(userName));
     
-    //Begin program loop
+    //Begin simulation loop
     while(continueInput == "y" && balance.getBalance() >= 0) {
         // Calculate simulated time from current time
         std::time_t t = std::time(0);
@@ -262,47 +326,16 @@ int main(){
             }
             std::cout << "$" << employeeMonthlyPay << " earned by " << employee.getName() << " last month.\n";
         }
-        std::cout << "-----------------------------------\n";
-        std::cout << "The date is " << dateHandler.simulatedMonth << "-" << dateHandler.simulatedDay<< "-" << dateHandler.simulatedYear << " (" << dateHandler.months[dateHandler.simulatedMonth - 1].first << ")" << std::endl;
-        std::cout << "There are " << dateHandler.months[dateHandler.simulatedMonth - 1].second - dateHandler.simulatedDay << " days left this month\n";
-        std::cout << "Last month we made: $" << functionalIncome << std::endl;
-        std::cout << "Last month labor costed: $" << std::fixed << std::setprecision(2) << grandTotal << std::endl;
-        std::cout << "For a difference of : $" << functionalIncome - grandTotal << std::endl;
-        std::cout << "Our new balance is: $" << balance.getBalance() << std::endl;
-        if((functionalIncome - grandTotal) > 0){
-            std::cout << "It was a good month, we MADE MONEY!\n";
-        }
-        else{
-            std::cout << "It was a bad month, we LOST MONEY\n";
-        }
-        std::cout << "-----------------------------------\n";
 
+        userInterface.monthlyPrintOut(functionalIncome, functionalGrandTotal, newBalance);
+        
         //reset the grandtotal counter
         grandTotal = 0;
+
         dateHandler.incrementMonth();
-
-        std::cout << "Sim another month? (y/n)\n";
-        std::cin >> continueInput;
-        while(continueInput != "y" && continueInput != "n"){
-            std::cout<< "----> Error, please enter 'y' or 'n' <----\n";
-            std::cout << "Would you like to sim a month in the system? (y/n)\n";
-            std::cin >> continueInput;
-        }
+        userInterface.askToSim(continueInput);
+        balance.bankruptChecker(continueInput);
+        userInterface.closeProgram(continueInput);
     }
-
-    double checkBalanceForMoreThanZero = balance.getBalance();
-    if(checkBalanceForMoreThanZero <= 0){
-        std::cout << "-----------------------------------\n";
-        std::cout << "WARNING: You have bankrupted the company and been kicked off the system\n";
-        std::cout << "-----------------------------------\n";
-        
-    }
-    if(continueInput == "n"){
-        std::cout << "-----------------------------------\n";
-        std::cout << "----------program closed.----------\n";
-        std::cout << "-----------------------------------\n";
-    }
-
-    system("pause");
     return 0;
 }
